@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -46,11 +47,36 @@ namespace RestoreDatabase
         display($"{item}");
       }
 
+      var oldDiffFilePriorToFull = GetListOfOlder(allDiffFiles, dateFromFull);
+      display($"il y a {oldDiffFilePriorToFull.Count} DIFF file(s) prior to the full backup which was done on {dateFromFull} ");
+
+      if (oldDiffFilePriorToFull.Count > 0)
+      {
+        foreach (var item in oldDiffFilePriorToFull)
+        {
+          display($"{item}");
+          File.Delete(item);
+        }
+      }
+
       display("Press any key to exit:");
       Console.ReadKey();
 
     }
 
+    private static List<string> GetListOfOlder(IEnumerable<string> list, DateTime date)
+    {
+      List<string> result = new List<string>();
+      foreach (var item in list)
+      {
+        if (GetDateFromFileName(item) < date)
+        {
+          result.Add(item);
+        }
+      }
+
+      return result;
+    }
     private static string GetOldestFileName(string[] files, string extension)
     {
       string result = string.Empty;
@@ -61,7 +87,7 @@ namespace RestoreDatabase
       return result;
     }
 
-    public static DateTime GetDateFromFileName(string fileName)
+    private static DateTime GetDateFromFileName(string fileName)
     {
       // ApplicationName_C_26_backup_2020_04_17_21_02_14_900.full
       DateTime result;
