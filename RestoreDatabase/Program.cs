@@ -7,7 +7,7 @@ namespace RestoreDatabase
 {
   class Program
   {
-    static void Main()
+    static void Main(string[] arguments)
     {
       Action<string> display = Console.WriteLine;
       // check if several full backup files
@@ -15,9 +15,26 @@ namespace RestoreDatabase
       //check if diff files older than full
       // if so delete them
       // generate restore SQL script file
-      string initialDirectory = @"E:\Partage\DepotTMA\ApplicationName\";
-      string pattern = "ApplicationName_*.*";
-      bool hasSeveralFull = false;
+      string initialDirectory = string.Empty;
+      if (arguments.Length > 0 && !string.IsNullOrEmpty(arguments[0]))
+      {
+        initialDirectory = arguments[0];
+      }
+      else
+      {
+        initialDirectory = @"E:\Partage\DepotTMA\ApplicationName\";
+      }
+
+      string pattern = "*.*";
+      if (arguments.Length > 0 && !string.IsNullOrEmpty(arguments[1]))
+      {
+        pattern = arguments[1];
+      }
+      else
+      {
+        pattern = @"ApplicationName_*.*";
+      }
+
       if (!Directory.Exists(initialDirectory))
       {
         display($"Le répertoire {initialDirectory} n'a pas été trouvé.");

@@ -7,7 +7,7 @@ namespace RestoreDatabase
     public List<FileName> ListOfFile { get; set; }
     public List<FileName> ListOfFull { get; set; }
     public List<FileName> ListOfDiff { get; set; }
-
+    public bool HasSeveralFull { get; set; }
 
   }
 }
