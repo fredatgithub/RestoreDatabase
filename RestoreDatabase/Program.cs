@@ -28,6 +28,7 @@ namespace RestoreDatabase
         display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
       }
 
+      // delete oldest full file
       if (files.Where(f => f.Contains(".full")).Count() > 1)
       {
         string oldestFileName = GetOldestFileName(files, ".full");
@@ -38,6 +39,12 @@ namespace RestoreDatabase
 
       var dateFromFull = GetDateFromFileName(files.Where(f => f.Contains(".full")).First());
       display($"date from full {dateFromFull}");
+      // delete all diff files older than full
+      var allDiffFiles = files.Where(f => f.Contains(".diff"));
+      foreach (var item in allDiffFiles)
+      {
+        display($"{item}");
+      }
 
       display("Press any key to exit:");
       Console.ReadKey();
