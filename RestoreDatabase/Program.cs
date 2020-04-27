@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace RestoreDatabase
 {
@@ -13,18 +14,44 @@ namespace RestoreDatabase
       //check if diff files older than full
       // if so delete them
       // generate restore SQL script file
-      string initialDirectory = @"E:\Partage\DepotTMA\ApplicationName_C_26\";
+      string initialDirectory = @"E:\Partage\DepotTMA\ApplicationName\";
       string pattern = "ApplicationName_*.*";
       bool hasSeveralFull = false;
+      if (!Directory.Exists(initialDirectory))
+      {
+        display($"Le répertoire {initialDirectory} n'a pas été trouvé.");
+        return;
+      }
       var files = Directory.GetFiles(initialDirectory, pattern);
       foreach (var fileName in files)
       {
-        display(GetDateFromFileName(fileName).ToLongDateString());
+        display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
       }
+
+      if (files.Where(f => f.Contains(".full")).Count() > 1)
+      {
+        string oldestFileName = GetOldestFileName(files, ".full");
+        display($"oldest ful file is: {oldestFileName}");
+        File.Delete(oldestFileName);
+        files = Directory.GetFiles(initialDirectory, pattern);
+      }
+
+      var dateFromFull = GetDateFromFileName(files.Where(f => f.Contains(".full")).First());
+      display($"date from full {dateFromFull}");
 
       display("Press any key to exit:");
       Console.ReadKey();
 
+    }
+
+    private static string GetOldestFileName(string[] files, string extension)
+    {
+      string result = string.Empty;
+      var subList = files.Where(f => f.Contains(".full"));
+      DateTime file1 = GetDateFromFileName(subList.ToArray()[0]);
+      DateTime file2 = GetDateFromFileName(subList.ToArray()[1]);
+      result = subList.ToList().Min(date => date).ToString();
+      return result;
     }
 
     public static DateTime GetDateFromFileName(string fileName)
