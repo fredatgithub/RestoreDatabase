@@ -16,6 +16,9 @@ namespace RestoreDatabase
       // if so delete them
       // generate restore SQL script file
       string initialDirectory = string.Empty;
+      string applicationName = "applicationName";
+      string fullBackupFileName = string.Empty;
+      string lastDiffBackupFileName = string.Empty;
       if (arguments.Length > 0 && !string.IsNullOrEmpty(arguments[0]))
       {
         initialDirectory = arguments[0];
