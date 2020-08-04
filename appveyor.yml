@@ -23,8 +23,8 @@ platform:
  
 # to add several configurations to build matrix:
 # build debug in case you have #IfDebug clause
-configuration:
 #  - Debug
+configuration:
   - Release
 
 install:
