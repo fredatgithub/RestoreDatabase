@@ -7,6 +7,7 @@ namespace RestoreDatabase
     public List<FileName> ListOfFiles { get; set; }
     public List<FileName> ListOfFull { get; set; }
     public List<FileName> ListOfDiff { get; set; }
+    public List<FileName> ListOfFilesToBeDeleted { get; set; }
     public bool HasSeveralFull { get; set; }
 
     public ListOfFileName()
@@ -14,6 +15,7 @@ namespace RestoreDatabase
       ListOfFiles = new List<FileName>();
       ListOfFull = new List<FileName>();
       ListOfDiff = new List<FileName>();
+      ListOfFilesToBeDeleted = new List<FileName>();
       HasSeveralFull = false;
     }
   }
