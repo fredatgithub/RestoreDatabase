@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace RestoreDatabase
 {
-  class Program
+  public class Program
   {
-    static void Main(string[] arguments)
+    public static void Main(string[] arguments)
     {
       Action<string> display = Console.WriteLine;
       // check if several full backup files

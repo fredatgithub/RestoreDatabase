@@ -2,7 +2,7 @@
 
 namespace RestoreDatabase
 {
-  class FileName
+  public class FileName
   {
     public string LongName { get; set; }
     public string Extension { get; set; }
@@ -59,7 +59,7 @@ namespace RestoreDatabase
     {
       string result = string.Empty;
       var longDate = name.Split('_');
-      result = $"{longDate[1]}-{longDate[2]}";
+      result = $"{longDate[1]}_{longDate[2]}";
       return result;
     }
 

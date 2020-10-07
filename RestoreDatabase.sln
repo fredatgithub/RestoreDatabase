@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestoreDatabase", "RestoreDatabase\RestoreDatabase.csproj", "{E8E2E87F-43AA-4ACB-9374-680A32BBBDAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestRestoreDatabase", "UnitTestRestoreDatabase\UnitTestRestoreDatabase.csproj", "{D4245247-2959-4FEA-B457-90BB7BB049A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E8E2E87F-43AA-4ACB-9374-680A32BBBDAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E2E87F-43AA-4ACB-9374-680A32BBBDAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E2E87F-43AA-4ACB-9374-680A32BBBDAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4245247-2959-4FEA-B457-90BB7BB049A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4245247-2959-4FEA-B457-90BB7BB049A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4245247-2959-4FEA-B457-90BB7BB049A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4245247-2959-4FEA-B457-90BB7BB049A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
