@@ -67,6 +67,11 @@ namespace RestoreDatabase
         }
       }
 
+      // search for duplicate full
+      foreach (var item in listOfAllfiles.ListOfFull)
+      {
+
+      }
 
       // delete oldest full file
       //if (files.Where(f => f.Contains(".full")).Count() > 1)

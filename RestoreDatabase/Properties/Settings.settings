@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="StartingDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">E:\Partage\BackupProd\</Value>
+      <Value Profile="(Default)">C:\Users\user1\source\repos\RestoreDatabase\RestoreDatabase\bin\Debug</Value>
     </Setting>
   </Settings>
 </SettingsFile>
