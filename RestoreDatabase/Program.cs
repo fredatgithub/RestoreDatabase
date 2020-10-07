@@ -25,7 +25,7 @@ namespace RestoreDatabase
       }
       else
       {
-        initialDirectory = @"E:\Partage\DepotTMA\ApplicationName\";
+        initialDirectory = Properties.Settings.Default.StartingDirectory;// @"E:\Partage\BackupProd\";
       }
 
       string pattern = "*.*";
@@ -35,7 +35,7 @@ namespace RestoreDatabase
       }
       else
       {
-        pattern = @"ApplicationName_*.*";
+        pattern = @"GESTAMI_*.*";
       }
 
       if (!Directory.Exists(initialDirectory))
@@ -43,41 +43,60 @@ namespace RestoreDatabase
         display($"Le répertoire {initialDirectory} n'a pas été trouvé.");
         return;
       }
+
       var files = Directory.GetFiles(initialDirectory, pattern);
+      //foreach (var fileName in files)
+      //{
+      //  display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
+      //}
+
+      ListOfFileName listOfAllfiles = new ListOfFileName();
+      //GESTAMI_J_4_backup_2020_10_06_20_00_07_127.diff
       foreach (var fileName in files)
       {
-        display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
-      }
-
-      // delete oldest full file
-      if (files.Where(f => f.Contains(".full")).Count() > 1)
-      {
-        string oldestFileName = GetOldestFileName(files, ".full");
-        display($"oldest ful file is: {oldestFileName}");
-        File.Delete(oldestFileName);
-        files = Directory.GetFiles(initialDirectory, pattern);
-      }
-
-      var dateFromFull = GetDateFromFileName(files.Where(f => f.Contains(".full")).First());
-      display($"date from full {dateFromFull}");
-      // delete all diff files older than full
-      var allDiffFiles = files.Where(f => f.Contains(".diff"));
-      foreach (var item in allDiffFiles)
-      {
-        display($"{item}");
-      }
-
-      var oldDiffFilePriorToFull = GetListOfOlder(allDiffFiles, dateFromFull);
-      display($"il y a {oldDiffFilePriorToFull.Count} DIFF file(s) prior to the full backup which was done on {dateFromFull} ");
-
-      if (oldDiffFilePriorToFull.Count > 0)
-      {
-        foreach (var item in oldDiffFilePriorToFull)
+        //display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
+        FileName tmpFile = new FileName(fileName);
+        listOfAllfiles.ListOfFiles.Add(tmpFile);
+        if (tmpFile.IsDiffFile)
         {
-          display($"{item}");
-          File.Delete(item);
+          listOfAllfiles.ListOfDiff.Add(tmpFile);
+        }
+        else if (tmpFile.IsFullFile)
+        {
+          listOfAllfiles.ListOfFull.Add(tmpFile);
         }
       }
+
+
+      // delete oldest full file
+      //if (files.Where(f => f.Contains(".full")).Count() > 1)
+      //{
+      //  string oldestFileName = GetOldestFileName(files, ".full");
+      //  display($"oldest ful file is: {oldestFileName}");
+      //  File.Delete(oldestFileName);
+      //  files = Directory.GetFiles(initialDirectory, pattern);
+      //}
+
+      //var dateFromFull = GetDateFromFileName(files.Where(f => f.Contains(".full")).First());
+      //display($"date from full {dateFromFull}");
+      //// delete all diff files older than full
+      //var allDiffFiles = files.Where(f => f.Contains(".diff"));
+      //foreach (var item in allDiffFiles)
+      //{
+      //  display($"{item}");
+      //}
+
+      //var oldDiffFilePriorToFull = GetListOfOlder(allDiffFiles, dateFromFull);
+      //display($"il y a {oldDiffFilePriorToFull.Count} DIFF file(s) prior to the full backup which was done on {dateFromFull} ");
+
+      //if (oldDiffFilePriorToFull.Count > 0)
+      //{
+      //  foreach (var item in oldDiffFilePriorToFull)
+      //  {
+      //    display($"{item}");
+      //    File.Delete(item);
+      //  }
+      //}
 
       /*
        USE [master]
