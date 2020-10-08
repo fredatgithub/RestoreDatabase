@@ -25,7 +25,8 @@ namespace RestoreDatabase
       }
       else
       {
-        initialDirectory = Properties.Settings.Default.StartingDirectory;// @"E:\Partage\BackupProd\";
+        //initialDirectory = Properties.Settings.Default.StartingDirectory;// @"E:\Partage\BackupProd\";
+        initialDirectory = @"E:\Partage\BackupProd\";
       }
 
       string pattern = "*.*";
@@ -35,7 +36,7 @@ namespace RestoreDatabase
       }
       else
       {
-        pattern = @"GESTAMI_*.*";
+        pattern = @"GEST*.*";
       }
 
       if (!Directory.Exists(initialDirectory))
@@ -49,7 +50,7 @@ namespace RestoreDatabase
       //{
       //  display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
       //}
-
+            
       ListOfFileName listOfAllfiles = new ListOfFileName();
       //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
       foreach (var fileName in files)
@@ -67,11 +68,45 @@ namespace RestoreDatabase
         }
       }
 
+      // create sub-directories if not exist
+      foreach (FileName fileName in listOfAllfiles.ListOfFiles)
+      {
+        string databaseName = fileName.DatabaseName;
+        string directory = Path.GetDirectoryName(fileName.LongName) + $"\\{databaseName}";
+        if (!Directory.Exists(directory))
+        {
+          Directory.CreateDirectory(directory);
+        }
+      }
+
+      // move files to sub-directories
+      foreach (FileName fileName in listOfAllfiles.ListOfFiles)
+      {
+        //Gestion_A_3_backup_2020_10_02_20_51_40_320.full
+        string databaseName = fileName.DatabaseName;
+        string directory = Path.GetDirectoryName(fileName.LongName) + $"\\{databaseName}";
+        string targetFileName = $"{directory}\\{Path.GetFileName(fileName.LongName)}";
+        try
+        {
+          File.Move(fileName.LongName, targetFileName);
+        }
+        catch (Exception)
+        {
+          // continue to move other files
+        }
+      }
+
+
+
+
       // search for duplicate full
       foreach (var item in listOfAllfiles.ListOfFull)
       {
 
       }
+
+      // delete diff before full
+
 
       // delete oldest full file
       //if (files.Where(f => f.Contains(".full")).Count() > 1)
