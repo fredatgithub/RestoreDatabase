@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace RestoreDatabase
 {
@@ -51,8 +52,8 @@ namespace RestoreDatabase
         IsFullFile = false;
       }
 
-      DateOfFile = CalculateDate(name);
-      DatabaseName = CalculateDatabaseName(name);
+      DateOfFile = CalculateDate(Path.GetFileName(name));
+      DatabaseName = CalculateDatabaseName(Path.GetFileName(name));
     }
 
     private string CalculateDatabaseName(string name)

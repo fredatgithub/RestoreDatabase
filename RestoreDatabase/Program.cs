@@ -46,10 +46,6 @@ namespace RestoreDatabase
       }
 
       var files = Directory.GetFiles(initialDirectory, pattern);
-      //foreach (var fileName in files)
-      //{
-      //  display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
-      //}
             
       ListOfFileName listOfAllfiles = new ListOfFileName();
       //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
@@ -96,15 +92,48 @@ namespace RestoreDatabase
         }
       }
 
-
-
-
-      // search for duplicate full
-      foreach (var item in listOfAllfiles.ListOfFull)
+      // get all files now in a sub-directories
+      files = Directory.GetFiles(initialDirectory, pattern, SearchOption.AllDirectories);
+      listOfAllfiles = new ListOfFileName();
+      //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
+      foreach (var fileName in files)
       {
-
+        FileName tmpFile = new FileName(fileName);
+        listOfAllfiles.ListOfFiles.Add(tmpFile);
+        if (tmpFile.IsDiffFile)
+        {
+          listOfAllfiles.ListOfDiff.Add(tmpFile);
+        }
+        else if (tmpFile.IsFullFile)
+        {
+          listOfAllfiles.ListOfFull.Add(tmpFile);
+        }
       }
 
+      // search for and delete duplicate full
+      Dictionary<string, int> dicoNumberFull = new Dictionary<string, int>();
+      Dictionary<string, List<string>> listOfDuplicate = new Dictionary<string, List<string>>();
+      foreach (FileName fileName in listOfAllfiles.ListOfFull)
+      {
+        if (!dicoNumberFull.ContainsKey(fileName.DatabaseName))
+        {
+          dicoNumberFull.Add(fileName.DatabaseName, 1);
+        }
+        else
+        {
+          dicoNumberFull[fileName.DatabaseName]++;
+          //listOfDuplicate.Add();
+        }
+      }
+
+      foreach (var databaseName in dicoNumberFull)
+      {
+        //List<string> listOfDuplicate = new List<string>();
+        if (databaseName.Value > 1)
+        {
+
+        }
+      }
       // delete diff before full
 
 
