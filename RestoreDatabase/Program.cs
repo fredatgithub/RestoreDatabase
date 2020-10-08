@@ -51,7 +51,7 @@ namespace RestoreDatabase
       //}
 
       ListOfFileName listOfAllfiles = new ListOfFileName();
-      //GESTAMI_J_4_backup_2020_10_06_20_00_07_127.diff
+      //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
       foreach (var fileName in files)
       {
         //display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
