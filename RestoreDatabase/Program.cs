@@ -265,29 +265,6 @@ GO
       return result;
     }
 
-    private static List<string> GetListOfOlder(IEnumerable<string> list, DateTime date)
-    {
-      List<string> result = new List<string>();
-      foreach (var item in list)
-      {
-        if (GetDateFromFileName(item) < date)
-        {
-          result.Add(item);
-        }
-      }
-
-      return result;
-    }
-    private static string GetOldestFileName(string[] files, string extension)
-    {
-      string result = string.Empty;
-      var subList = files.Where(f => f.Contains(".full"));
-      DateTime file1 = GetDateFromFileName(subList.ToArray()[0]);
-      DateTime file2 = GetDateFromFileName(subList.ToArray()[1]);
-      result = subList.ToList().Min(date => date).ToString();
-      return result;
-    }
-
     private static DateTime GetDateFromFileName(string fileName)
     {
       // ApplicationName_C_26_backup_2020_04_17_21_02_14_900.full

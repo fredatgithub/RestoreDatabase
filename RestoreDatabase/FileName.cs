@@ -77,9 +77,15 @@ namespace RestoreDatabase
       return DateOfFile.CompareTo(other.DateOfFile);
     }
 
-    public override int GetHashCode()
+    public override bool Equals(object obj)
     {
-      throw new NotImplementedException();
+      return obj is FileName name &&
+             LongName == name.LongName &&
+             Extension == name.Extension &&
+             DateOfFile == name.DateOfFile &&
+             DatabaseName == name.DatabaseName &&
+             IsDiffFile == name.IsDiffFile &&
+             IsFullFile == name.IsFullFile;
     }
 
     public static bool operator ==(FileName left, FileName right)
@@ -110,6 +116,11 @@ namespace RestoreDatabase
     public static bool operator >=(FileName left, FileName right)
     {
       return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+    }
+
+    public override int GetHashCode()
+    {
+      return 1;
     }
   }
 }
