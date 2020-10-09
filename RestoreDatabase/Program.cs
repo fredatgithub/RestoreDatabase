@@ -25,8 +25,18 @@ namespace RestoreDatabase
       }
       else
       {
-        //initialDirectory = Properties.Settings.Default.StartingDirectory;// @"E:\Partage\BackupProd\";
-        initialDirectory = @"E:\Partage\BackupProd\";
+        if (Directory.Exists(Properties.Settings.Default.StartingDirectory))
+        {
+          initialDirectory = Properties.Settings.Default.StartingDirectory;
+        }
+        else if (Directory.Exists(@"E:\Partage\BackupProd\"))
+        {
+          initialDirectory = @"E:\Partage\BackupProd\";
+        }
+        else
+        {
+          initialDirectory = @"C:\";
+        }
       }
 
       string pattern = "*.*";
@@ -148,7 +158,7 @@ namespace RestoreDatabase
         }
       }
 
-      // delete diff before full and all diff but last one
+      // delete diff before full and all diff but lastest one
       Dictionary<string, int> dicoNumberDiff = new Dictionary<string, int>();
       Dictionary<string, List<string>> listOfDiffBeforeFull = new Dictionary<string, List<string>>();
       foreach (FileName fileName in listOfAllfiles.ListOfDiff)

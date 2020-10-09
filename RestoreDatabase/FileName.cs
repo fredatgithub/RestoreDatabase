@@ -76,5 +76,40 @@ namespace RestoreDatabase
     {
       return DateOfFile.CompareTo(other.DateOfFile);
     }
+
+    public override int GetHashCode()
+    {
+      throw new NotImplementedException();
+    }
+
+    public static bool operator ==(FileName left, FileName right)
+    {
+      return left.DateOfFile == right.DateOfFile;
+    }
+
+    public static bool operator !=(FileName left, FileName right)
+    {
+      return !(left.DateOfFile == right.DateOfFile);
+    }
+
+    public static bool operator <(FileName left, FileName right)
+    {
+      return ReferenceEquals(left.DateOfFile, null) ? !ReferenceEquals(right.DateOfFile, null) : left.CompareTo(right) < 0;
+    }
+
+    public static bool operator <=(FileName left, FileName right)
+    {
+      return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+    }
+
+    public static bool operator >(FileName left, FileName right)
+    {
+      return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+    }
+
+    public static bool operator >=(FileName left, FileName right)
+    {
+      return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+    }
   }
 }
