@@ -51,7 +51,6 @@ namespace RestoreDatabase
       //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
       foreach (var fileName in files)
       {
-        //display($"{Path.GetExtension(fileName)} {GetDateFromFileName(fileName)}");
         FileName tmpFile = new FileName(fileName);
         listOfAllfiles.ListOfFiles.Add(tmpFile);
         if (tmpFile.IsDiffFile)
@@ -75,7 +74,7 @@ namespace RestoreDatabase
         }
       }
 
-      // move files to sub-directories
+      // move files to sub-directories: diff and full
       foreach (FileName fileName in listOfAllfiles.ListOfFiles)
       {
         //Gestion_A_3_backup_2020_10_02_20_51_40_320.full
@@ -86,16 +85,21 @@ namespace RestoreDatabase
         {
           File.Move(fileName.LongName, targetFileName);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-          // continue to move other files
+          Console.WriteLine($"error while trying to move a file: {exception.Message}");
+          //if file already exists on target directory, then delete it
+          if (File.Exists(targetFileName))
+          {
+            File.Delete(fileName.LongName);
+          }
         }
       }
 
       // get all files now in a sub-directories
+      //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
       files = Directory.GetFiles(initialDirectory, pattern, SearchOption.AllDirectories);
       listOfAllfiles = new ListOfFileName();
-      //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
       foreach (var fileName in files)
       {
         FileName tmpFile = new FileName(fileName);
@@ -112,17 +116,18 @@ namespace RestoreDatabase
 
       // search for and delete duplicate full
       Dictionary<string, int> dicoNumberFull = new Dictionary<string, int>();
-      Dictionary<string, List<string>> listOfDuplicate = new Dictionary<string, List<string>>();
+      Dictionary<string, List<string>> listOfDuplicateFull = new Dictionary<string, List<string>>();
       foreach (FileName fileName in listOfAllfiles.ListOfFull)
       {
         if (!dicoNumberFull.ContainsKey(fileName.DatabaseName))
         {
           dicoNumberFull.Add(fileName.DatabaseName, 1);
+          listOfDuplicateFull.Add(fileName.DatabaseName, new List<string> { fileName.LongName });
         }
         else
         {
           dicoNumberFull[fileName.DatabaseName]++;
-          //listOfDuplicate.Add();
+          listOfDuplicateFull[fileName.DatabaseName].Add(fileName.LongName);
         }
       }
 

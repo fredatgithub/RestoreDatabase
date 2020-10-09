@@ -68,7 +68,7 @@ namespace RestoreDatabase
     {
       // Gestion_X_2_backup_2020_10_02_20_51_40_320.full
       var longDate = name.Split('_');
-      DateTime result = new DateTime(int.Parse(longDate[4]), int.Parse(longDate[5]), int.Parse(longDate[6]));
+      DateTime result = new DateTime(int.Parse(longDate[4]), int.Parse(longDate[5]), int.Parse(longDate[6]), int.Parse(longDate[7]), int.Parse(longDate[8]), int.Parse(longDate[9]));
       return result;
     }
   }
