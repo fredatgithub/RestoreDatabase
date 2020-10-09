@@ -46,7 +46,7 @@ namespace RestoreDatabase
       }
 
       var files = Directory.GetFiles(initialDirectory, pattern);
-            
+
       ListOfFileName listOfAllfiles = new ListOfFileName();
       //Gestion_J_4_backup_2020_10_06_20_00_07_127.diff
       foreach (var fileName in files)
@@ -176,7 +176,7 @@ namespace RestoreDatabase
        USE [master]
 ALTER DATABASE [serverName] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 BACKUP LOG [serverName] TO  DISK = N'C:\MSSQL\Backup\serverName_LogBackup_date.bak' WITH NOFORMAT, NOINIT,  NAME = N'serverName_LogBackup_date', NOSKIP, NOREWIND, NOUNLOAD,  NORECOVERY ,  STATS = 5
-RESTORE DATABASE [serverName] FROM  DISK = N'C:\Path\serverName\serverName_backup_date.full' WITH  FILE = 1,  MOVE N'GestAMI_data' TO N'C:\MSSQL\DATA\serverName.mdf',  MOVE N'GestAMI_log' TO N'E:\MSSQL\DATA\serverName.ldf',  NORECOVERY,  NOUNLOAD,  REPLACE,  STATS = 5
+RESTORE DATABASE [serverName] FROM  DISK = N'C:\Path\serverName\serverName_backup_date.full' WITH  FILE = 1,  MOVE N'GestION_data' TO N'C:\MSSQL\DATA\serverName.mdf',  MOVE N'GestION_log' TO N'E:\MSSQL\DATA\serverName.ldf',  NORECOVERY,  NOUNLOAD,  REPLACE,  STATS = 5
 RESTORE DATABASE [serverName] FROM  DISK = N'C:\Path\serverName\serverName_backup_date.diff' WITH  FILE = 1,  NOUNLOAD,  STATS = 5
 ALTER DATABASE [serverName] SET MULTI_USER
 GO
