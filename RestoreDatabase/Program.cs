@@ -10,6 +10,12 @@ namespace RestoreDatabase
     public static void Main(string[] arguments)
     {
       Action<string> display = Console.WriteLine;
+      display("RestoreDatabase Version 1.0");
+      display(Environment.NewLine);
+      display("Removing duplicate full and keeping the latest one");
+      display(Environment.NewLine);
+      display("Removing oldest diff files and keeping the latest one");
+      display(Environment.NewLine);
       // check if several full backup files
       // if so delete oldest
       //check if diff files older than full
@@ -205,6 +211,9 @@ RESTORE DATABASE [serverName] FROM  DISK = N'C:\Path\serverName\serverName_backu
 ALTER DATABASE [serverName] SET MULTI_USER
 GO
        * */
+
+      display("Files removed, latest full and diff kept");
+      display(Environment.NewLine);
       display("Press any key to exit:");
       Console.ReadKey();
     }
@@ -212,6 +221,22 @@ GO
     private static List<string> GetOldestFileNames(List<string> value)
     {
       List<string> result = new List<string>();
+      List<FileName> tmpFileList = new List<FileName>();
+      foreach (var item in value)
+      {
+        FileName tmpFile = new FileName(item);
+        tmpFileList.Add(tmpFile);
+      }
+
+      var newestDate = tmpFileList.Select(f => f.DateOfFile).Max();
+      foreach (var item in value)
+      {
+        FileName tmpFileName = new FileName(item);
+        if (tmpFileName.DateOfFile != newestDate)
+        {
+          result.Add(tmpFileName.LongName);
+        }
+      }
 
       return result;
     }
@@ -226,7 +251,6 @@ GO
         tmpFileList.Add(tmpFile);
       }
 
-      //int minLength = stringList.Select(x => x.Length).Min()
       var oldestDate = tmpFileList.Select(f => f.DateOfFile).Min();
       foreach (var item in value)
       {
