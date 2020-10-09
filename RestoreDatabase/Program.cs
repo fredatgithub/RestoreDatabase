@@ -131,6 +131,7 @@ namespace RestoreDatabase
         }
       }
 
+      // delete duplicate full
       foreach (var item in listOfDuplicateFull)
       {
         if (item.Value.Count > 1)
@@ -147,15 +148,43 @@ namespace RestoreDatabase
         }
       }
 
-      // delete diff before full
-      foreach (var databaseName in dicoNumberFull)
+      // delete diff before full and all diff but last one
+      Dictionary<string, int> dicoNumberDiff = new Dictionary<string, int>();
+      Dictionary<string, List<string>> listOfDiffBeforeFull = new Dictionary<string, List<string>>();
+      foreach (FileName fileName in listOfAllfiles.ListOfDiff)
       {
-        if (databaseName.Value > 1)
+        if (!dicoNumberDiff.ContainsKey(fileName.DatabaseName))
         {
-
+          dicoNumberDiff.Add(fileName.DatabaseName, 1);
+          listOfDiffBeforeFull.Add(fileName.DatabaseName, new List<string> { fileName.LongName });
+        }
+        else
+        {
+          dicoNumberDiff[fileName.DatabaseName]++;
+          listOfDiffBeforeFull[fileName.DatabaseName].Add(fileName.LongName);
         }
       }
-      
+
+      // delete oldest diff files and keep the latest diff file before full
+      foreach (var item in listOfDiffBeforeFull)
+      {
+        if (item.Value.Count > 1)
+        {
+
+          var oldestFiles = GetOldestFileNames(item.Value);
+          try
+          {
+            foreach (var file in oldestFiles)
+            {
+              File.Delete(file);
+            }
+          }
+          catch (Exception exception)
+          {
+            Console.WriteLine($"Error while trying to delete oldest diff file: {exception.Message}");
+          }
+        }
+      }
 
       /*
        USE [master]
@@ -166,10 +195,15 @@ RESTORE DATABASE [serverName] FROM  DISK = N'C:\Path\serverName\serverName_backu
 ALTER DATABASE [serverName] SET MULTI_USER
 GO
        * */
-
       display("Press any key to exit:");
       Console.ReadKey();
+    }
 
+    private static List<string> GetOldestFileNames(List<string> value)
+    {
+      List<string> result = new List<string>();
+
+      return result;
     }
 
     private static string GetOldestFileName(List<string> value)

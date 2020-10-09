@@ -3,7 +3,7 @@ using System.IO;
 
 namespace RestoreDatabase
 {
-  public class FileName
+  public class FileName : IComparable<FileName>
   {
     public string LongName { get; set; }
     public string Extension { get; set; }
@@ -70,6 +70,11 @@ namespace RestoreDatabase
       var longDate = name.Split('_');
       DateTime result = new DateTime(int.Parse(longDate[4]), int.Parse(longDate[5]), int.Parse(longDate[6]), int.Parse(longDate[7]), int.Parse(longDate[8]), int.Parse(longDate[9]));
       return result;
+    }
+
+    public int CompareTo(FileName other)
+    {
+      return DateOfFile.CompareTo(other.DateOfFile);
     }
   }
 }
