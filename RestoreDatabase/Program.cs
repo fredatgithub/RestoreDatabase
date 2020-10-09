@@ -131,46 +131,31 @@ namespace RestoreDatabase
         }
       }
 
+      foreach (var item in listOfDuplicateFull)
+      {
+        if (item.Value.Count > 1)
+        {
+          var oldestFile = GetOldestFileName(item.Value);
+          try
+          {
+            File.Delete(oldestFile);
+          }
+          catch (Exception exception)
+          {
+            Console.WriteLine($"Error while trying to delete duplicate full file: {exception.Message}");
+          }
+        }
+      }
+
+      // delete diff before full
       foreach (var databaseName in dicoNumberFull)
       {
-        //List<string> listOfDuplicate = new List<string>();
         if (databaseName.Value > 1)
         {
 
         }
       }
-      // delete diff before full
-
-
-      // delete oldest full file
-      //if (files.Where(f => f.Contains(".full")).Count() > 1)
-      //{
-      //  string oldestFileName = GetOldestFileName(files, ".full");
-      //  display($"oldest ful file is: {oldestFileName}");
-      //  File.Delete(oldestFileName);
-      //  files = Directory.GetFiles(initialDirectory, pattern);
-      //}
-
-      //var dateFromFull = GetDateFromFileName(files.Where(f => f.Contains(".full")).First());
-      //display($"date from full {dateFromFull}");
-      //// delete all diff files older than full
-      //var allDiffFiles = files.Where(f => f.Contains(".diff"));
-      //foreach (var item in allDiffFiles)
-      //{
-      //  display($"{item}");
-      //}
-
-      //var oldDiffFilePriorToFull = GetListOfOlder(allDiffFiles, dateFromFull);
-      //display($"il y a {oldDiffFilePriorToFull.Count} DIFF file(s) prior to the full backup which was done on {dateFromFull} ");
-
-      //if (oldDiffFilePriorToFull.Count > 0)
-      //{
-      //  foreach (var item in oldDiffFilePriorToFull)
-      //  {
-      //    display($"{item}");
-      //    File.Delete(item);
-      //  }
-      //}
+      
 
       /*
        USE [master]
@@ -185,6 +170,31 @@ GO
       display("Press any key to exit:");
       Console.ReadKey();
 
+    }
+
+    private static string GetOldestFileName(List<string> value)
+    {
+      string result = string.Empty;
+      List<FileName> tmpFileList = new List<FileName>();
+      foreach (var item in value)
+      {
+        FileName tmpFile = new FileName(item);
+        tmpFileList.Add(tmpFile);
+      }
+
+      //int minLength = stringList.Select(x => x.Length).Min()
+      var oldestDate = tmpFileList.Select(f => f.DateOfFile).Min();
+      foreach (var item in value)
+      {
+        FileName tmpFileName = new FileName(item);
+        if (tmpFileName.DateOfFile == oldestDate)
+        {
+          result = tmpFileName.LongName;
+          break;
+        }
+      }
+
+      return result;
     }
 
     private static List<string> GetListOfOlder(IEnumerable<string> list, DateTime date)
