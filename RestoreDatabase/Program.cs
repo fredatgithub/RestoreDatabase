@@ -107,7 +107,15 @@ namespace RestoreDatabase
           //if file already exists on target directory, then delete it
           if (File.Exists(targetFileName))
           {
-            File.Delete(fileName.LongName);
+            try
+            {
+              File.Delete(fileName.LongName);
+            }
+            catch (Exception exception2)
+            {
+              Console.WriteLine($"Error while deleting the file: {fileName.LongName}");
+              Console.WriteLine($"The exception is {exception2.Message}");
+            }
           }
         }
       }
