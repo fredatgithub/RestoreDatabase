@@ -25,6 +25,7 @@ namespace RestoreDatabase
       string applicationName = "applicationName";
       string fullBackupFileName = string.Empty;
       string lastDiffBackupFileName = string.Empty;
+      bool deletefiles = true;
       if (arguments.Length > 0 && !string.IsNullOrEmpty(arguments[0]))
       {
         initialDirectory = arguments[0];
@@ -109,7 +110,10 @@ namespace RestoreDatabase
           {
             try
             {
-              File.Delete(fileName.LongName);
+              if (deletefiles)
+              {
+                File.Delete(fileName.LongName);
+              }
             }
             catch (Exception exception2)
             {
@@ -163,7 +167,10 @@ namespace RestoreDatabase
           var oldestFile = GetOldestFileName(item.Value);
           try
           {
-            File.Delete(oldestFile);
+            if (deletefiles)
+            {
+              File.Delete(oldestFile);
+            }
           }
           catch (Exception exception)
           {
@@ -200,7 +207,10 @@ namespace RestoreDatabase
           {
             foreach (var file in oldestFiles)
             {
-              File.Delete(file);
+              if (deletefiles)
+              {
+                File.Delete(file);
+              }
             }
           }
           catch (Exception exception)
