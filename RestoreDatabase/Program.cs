@@ -233,7 +233,7 @@ GO
       display("Files removed, latest full and diff kept");
       display(Environment.NewLine);
       display("Press any key to exit:");
-      Console.ReadKey();
+      //Console.ReadKey(); // commented because put on a scheduled task
     }
 
     private bool IsFileLocked(FileInfo file)
