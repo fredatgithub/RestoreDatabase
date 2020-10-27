@@ -60,15 +60,35 @@ namespace RestoreDatabase
     {
       string result = string.Empty;
       var longDate = name.Split('_');
-      result = $"{longDate[1]}_{longDate[2]}";
+      if (longDate[0].ToLower() == "masterdata")
+      {
+        result = longDate[0];
+      }
+      else
+      {
+        result = $"{longDate[1]}_{longDate[2]}";
+      }
+      
       return result;
     }
 
     private DateTime CalculateDate(string name)
     {
       // Gestion_X_2_backup_2020_10_02_20_51_40_320.full
+      // MASTERDATA_backup_2020_10_02_20_51_40_320.full
       var longDate = name.Split('_');
-      DateTime result = new DateTime(int.Parse(longDate[4]), int.Parse(longDate[5]), int.Parse(longDate[6]), int.Parse(longDate[7]), int.Parse(longDate[8]), int.Parse(longDate[9]));
+      int startIndex = 2;
+      if (longDate[0].ToLower() == "masterdata")
+      {
+        startIndex = 2;
+      }
+      else
+      {
+        startIndex = 4;
+      }
+
+      DateTime result = new DateTime(int.Parse(longDate[startIndex]), int.Parse(longDate[startIndex + 1]), int.Parse(longDate[startIndex + 2]), int.Parse(longDate[startIndex + 3]), int.Parse(longDate[startIndex + 4]), int.Parse(longDate[startIndex + 5]));
+
       return result;
     }
 

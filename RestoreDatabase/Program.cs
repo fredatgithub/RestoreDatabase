@@ -53,7 +53,7 @@ namespace RestoreDatabase
       }
       else
       {
-        pattern = @"GEST*.*";
+        pattern = @"*.*";
       }
 
       if (!Directory.Exists(initialDirectory))
