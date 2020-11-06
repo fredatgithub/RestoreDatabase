@@ -201,7 +201,6 @@ namespace RestoreDatabase
       {
         if (item.Value.Count > 1)
         {
-
           var oldestFiles = GetOldestFileNames(item.Value);
           try
           {
