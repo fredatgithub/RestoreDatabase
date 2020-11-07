@@ -92,9 +92,9 @@ namespace RestoreDatabase
       return result;
     }
 
-    public int CompareTo(FileName other)
+    public int CompareTo(FileName otherFileName)
     {
-      return DateOfFile.CompareTo(other.DateOfFile);
+      return DateOfFile.CompareTo(otherFileName.DateOfFile);
     }
 
     public override bool Equals(object objectToBeCompared)
