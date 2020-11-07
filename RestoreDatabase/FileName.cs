@@ -60,7 +60,7 @@ namespace RestoreDatabase
     {
       var longDate = name.Split('_');
       string result;
-      if (longDate[0].ToLower() == "masterdata")
+      if (longDate[0].ToLower().StartsWith("masterdata"))
       {
         result = longDate[0];
       }
