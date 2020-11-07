@@ -58,8 +58,8 @@ namespace RestoreDatabase
 
     private string CalculateDatabaseName(string name)
     {
-      string result = string.Empty;
       var longDate = name.Split('_');
+      string result;
       if (longDate[0].ToLower() == "masterdata")
       {
         result = longDate[0];
@@ -68,17 +68,17 @@ namespace RestoreDatabase
       {
         result = $"{longDate[1]}_{longDate[2]}";
       }
-      
+
       return result;
     }
 
     private DateTime CalculateDate(string name)
     {
       // Gestion_X_2_backup_2020_10_02_20_51_40_320.full
-      // MASTERDATA_backup_2020_10_02_20_51_40_320.full
+      // MASTERDATABASE_backup_2020_10_02_20_51_40_320.full
       var longDate = name.Split('_');
-      int startIndex = 2;
-      if (longDate[0].ToLower() == "masterdata")
+      int startIndex;
+      if (longDate[0].ToLower().StartsWith("masterdata"))
       {
         startIndex = 2;
       }
@@ -97,9 +97,9 @@ namespace RestoreDatabase
       return DateOfFile.CompareTo(other.DateOfFile);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object objectToBeCompared)
     {
-      return obj is FileName name &&
+      return objectToBeCompared is FileName name &&
              LongName == name.LongName &&
              Extension == name.Extension &&
              DateOfFile == name.DateOfFile &&
@@ -125,17 +125,17 @@ namespace RestoreDatabase
 
     public static bool operator <=(FileName left, FileName right)
     {
-      return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+      return left is null || left.CompareTo(right) <= 0;
     }
 
     public static bool operator >(FileName left, FileName right)
     {
-      return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+      return left is object && left.CompareTo(right) > 0;
     }
 
     public static bool operator >=(FileName left, FileName right)
     {
-      return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+      return left is null ? right is null : left.CompareTo(right) >= 0;
     }
 
     public override int GetHashCode()
